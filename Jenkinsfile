@@ -45,14 +45,14 @@ node {
 
         stage('packaging') {
             sh "./mvnw verify -Pprod -DskipTests"
-            archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+            archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
         }
     }
 
     def dockerImage
     stage('build docker') {
         sh "cp -R src/main/docker target/"
-        sh "cp target/*.jar target/docker/"
+        sh "cp target/*.war target/docker/"
         dockerImage = docker.build('tatilui/devops-repo', 'target/docker')
     }
 
